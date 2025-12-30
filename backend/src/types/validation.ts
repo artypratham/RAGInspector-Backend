@@ -47,17 +47,19 @@ export const createAnnotationSchema = z.object({
   extractionId: z.string(),
   fieldName: z.string(),
   recordId: z.string(),
-  originalValue: z.string().optional(),
-  correctedValue: z.string().optional(),
-  comment: z.string().optional(),
-  flagType: z.string().optional(),
+  status: z.enum(['correct', 'incorrect']),
+  extractedValue: z.string().optional(),
+  expectedValue: z.string().optional(),
+  category: z.string().optional(),
+  confidence: z.number().optional(),
 });
 
 export const updateAnnotationSchema = z.object({
-  originalValue: z.string().optional(),
-  correctedValue: z.string().optional(),
-  comment: z.string().optional(),
-  flagType: z.string().optional(),
+  status: z.enum(['correct', 'incorrect']).optional(),
+  extractedValue: z.string().optional(),
+  expectedValue: z.string().optional(),
+  category: z.string().optional(),
+  confidence: z.number().optional(),
 });
 
 // Record schema
