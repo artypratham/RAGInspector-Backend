@@ -6,9 +6,10 @@ import extractionRoutes from './routes/extraction.routes';
 import annotationRoutes from './routes/annotation.routes';
 
 const app = express();
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'
 
 app.use(cors({
-  origin: env.FRONTEND_URL,
+  origin: [FRONTEND_URL, 'https://rag-inspector.vercel.app' ],
   credentials: true,
 }));
 
@@ -35,5 +36,5 @@ app.use((err: any, _req: Request, res: Response, _next: any) => {
 app.listen(env.PORT, () => {
   console.log(`🚀 Server running on port ${env.PORT}`);
   console.log(`📝 Environment: ${env.NODE_ENV}`);
-  console.log(`🔗 Frontend URL: ${env.FRONTEND_URL}`);
+  console.log(`🔗 Frontend URL: ${FRONTEND_URL}`);
 });
