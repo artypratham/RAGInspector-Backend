@@ -9,7 +9,7 @@ const app = express();
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173'
 
 app.use(cors({
-  origin: [FRONTEND_URL, 'https://rag-inspector.vercel.app' ],
+  origin: [FRONTEND_URL, 'https://rag-inspector-git-main-artyprathams-projects.vercel.app/' ],
   credentials: true,
 }));
 
