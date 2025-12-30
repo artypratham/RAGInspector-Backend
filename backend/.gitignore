@@ -1,5 +1,9 @@
 node_modules
 dist
 .env
+.env.example
 *.log
 .DS_Store
+ARCHITECTURE.md
+BACKEND_SUMMARY.md
+DEPLOYMENT.md
