@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  extractions Extraction[]
+
+  @@map("users")
+}
+
+model Extraction {
+  id          String    @id @default(cuid())
+  userId      String
+  title       String?
+  schemaInput String    @db.Text
+  outputJson  String    @db.Text
+  submittedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  annotations Annotation[]
+  records     Record[]
+
+  @@index([userId])
+  @@map("extractions")
+}
+
+model Record {
+  id           String   @id @default(cuid())
+  extractionId String
+  recordId     String
+  docId        String?
+  success      Boolean
+  recordData   String   @db.Text
+  createdAt    DateTime @default(now())
+
+  extraction Extraction @relation(fields: [extractionId], references: [id], onDelete: Cascade)
+
+  @@index([extractionId])
+  @@map("records")
+}
+
+model Annotation {
+  id             String   @id @default(cuid())
+  extractionId   String
+  fieldName      String
+  recordId       String
+  status         String   // "correct" or "incorrect"
+  extractedValue String?
+  expectedValue  String?
+  category       String?  // error category: "hallucination", "retrieval", "extraction", "formatting", "other"
+  confidence     Float?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  extraction Extraction @relation(fields: [extractionId], references: [id], onDelete: Cascade)
+
+  @@index([extractionId])
+  @@index([recordId])
+  @@map("annotations")
+}
